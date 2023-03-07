@@ -3,8 +3,6 @@ const user=require("../models/user")
 
 
 
-
-
 exports.isUsers=async(req,res,next)=>{
      
      try{

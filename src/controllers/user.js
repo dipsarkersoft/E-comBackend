@@ -1,4 +1,6 @@
  const user=require("../models/user")
+
+ const order=require("../models/order")
 const{hashPassword,comparePassword, creatToken}=require("../helpers/auth")
 
 
@@ -52,7 +54,7 @@ const{hashPassword,comparePassword, creatToken}=require("../helpers/auth")
      }
  catch(error){
           res.status (400).json({
-               message:error
+               error:error.message
           })
      }
  }
@@ -119,4 +121,64 @@ const{hashPassword,comparePassword, creatToken}=require("../helpers/auth")
      catch(error){console.log(error)}
  }
 
+
+
+ exports.getOrdersController = async (req, res) => {
+     try {
+       const orders = await order
+         .find({ buyer:req.User._id})
+
+         .populate({ path: '-photo', model:'Products',strictPopulate: false })
+         .populate({ path:'name', model:'User',strictPopulate: false }) 
+
+       res.json(orders);
+     } catch (error) {
+          console.log(error)
+       res.status(500).send({
+         success: false,
+         message: "Soomething Wrong",
+         error,
+       });
+     }
+   };
+
+
+ exports.getAllOrdersController = async (req, res) => {
+     try {
+       const orders = await order
+         .find({})
+     .populate({ path: '-photo', model:'Product',strictPopulate: false })
+     .populate({ path: 'name', model:'User',strictPopulate: false })
+         .sort({ createdAt: "-1" });
+       res.json(orders);
+     } catch (error) {
+       console.log(error);
+       res.status(500).send({
+         success: false,
+         message: "SOmething Else",
+         error
+       });
+     }
+   };
+   
+   //order status
+   exports.orderStatusController = async (req, res) => {
+     try {
+       const { orderId } = req.params;
+       const { status } = req.body;
+       const orders = await order.findByIdAndUpdate(
+         orderId,
+         { status },
+         { new: true }
+       );
+       res.json(orders);
+     } catch (error) {
+       console.log(error);
+       res.status(500).send({
+         success: false,
+         message: "Something ELSE",
+         error
+       });
+     }
+   };
  

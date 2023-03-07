@@ -6,7 +6,9 @@ const bcrypt=require("bcrypt")
 exports.creatToken=(User)=>{
      const payload={
           "_id":User._id,  
-          'email':User.email    
+          'email':User.email,
+          'email':User.name
+
           
      }
     return jwt.sign(payload,process.env.JWT_SECRET,{

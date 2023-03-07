@@ -17,6 +17,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(helmet())
 
 
+// app.use(express.static(path.join(__dirname,"frontend/build")))
 
 //routes ...........
 
@@ -30,10 +31,15 @@ const database=process.env.DATABASE
 
 
 //CONNECT DB..........
-mongoose.set('strictQuery', true);
+mongoose.set('strictQuery', true)
 mongoose
 .connect(database)
 .then(()=>{app.listen(port,()=>{
      console.log(`Server Running on port ${port}`)
 })})
 .catch((error)=>{console.log(error)})
+
+
+// app.get('*',function (req,res) {
+//      res.sendFile(path.resolve(__dirname,'frontend','build','index.html'))
+//  })

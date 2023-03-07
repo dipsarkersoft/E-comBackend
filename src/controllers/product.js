@@ -377,14 +377,13 @@ exports.getToken = async (req, res) => {
 
 exports.processPayment = async (req, res) => {
   try {
-    // console.log(req.body);
+
     const { nonce, cart } = req.body;
 
     let total = 0;
-    [cart].map((i) => {
+    cart.map((i) => {
       total += i.price;
     });
-    // console.log("total => ", total);
 
     let newTransaction = gateway.transaction.sale(
       {
@@ -402,7 +401,7 @@ exports.processPayment = async (req, res) => {
             payment: result,
             buyer: req.User._id,
           }).save();   
-          decrementQuantity(cart);
+         
           res.json({ ok: true });
         } else {
           res.status(500).send(error);

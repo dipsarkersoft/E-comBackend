@@ -41,7 +41,7 @@ const productSchema =mongoose.Schema(
     },
     shipping: {
       type: Boolean,
-    },
+    }
   },
   { timestamps: true, versionKey: false }
 );
