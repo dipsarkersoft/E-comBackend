@@ -10,14 +10,13 @@ const cors=require("cors")
 
 
 //middleware.......
-//app.use(cors())
+app.use(cors())
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}));
 app.use(helmet())
 
 
-// app.use(express.static(path.join(__dirname,"frontend/build")))
 
 //routes ...........
 
@@ -39,9 +38,5 @@ mongoose
 })})
 .catch((error)=>{console.log(error)})
 
-
-// app.get('*',function (req,res) {
-//      res.sendFile(path.resolve(__dirname,'frontend','build','index.html'))
-//  })
 
 module.exports=app
